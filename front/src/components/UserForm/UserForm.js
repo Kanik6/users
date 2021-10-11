@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import './UserForm.css';
 import {useDispatch, useSelector} from "react-redux";
 import {createUser, fetchUsers, fetchSingleUser, updateUser} from "../../store/actions/UserActions";
-import {NavLink} from "react-router-dom";
 import {Form, Button, Container, Row, Col} from 'react-bootstrap';
 
 const UserForm = props => {
@@ -15,6 +14,8 @@ const UserForm = props => {
         'birthDate': '',
         'gender': '',
     });
+
+    const [date, setDate] = useState(new Date());
 
     useEffect(() => {
         if(props.match.params.id) {
@@ -52,22 +53,19 @@ const UserForm = props => {
                 'birthDate': '',
                 'gender': '',
             });
-            props.history.push("/");
         } else {
-            dispatch(createUser(user));
+            dispatch(createUser(user, props.history));
             setUser({
                 'fullName': '',
                 'birthDate': '',
                 'gender': '',
             });
-            props.history.push("/");
         }
     }
 
     return (
         <Container>
             <Row>
-                {console.log(user)}
                 <Col md={{span:8 , offset:2}}>
                     <Form className="form mt-4" onSubmit={handleSubmit}>
                         <Form.Group controlId="formFullName">
@@ -78,6 +76,7 @@ const UserForm = props => {
                                 placeholder="Enter full name" 
                                 onChange={handleChange}
                                 value={user.fullName || ''}
+                                required
                              />
                         </Form.Group>
 
@@ -85,11 +84,10 @@ const UserForm = props => {
                             <Form.Label>BirthDate</Form.Label>
                             <Form.Control
                                 type="date"
-                                placeholder="Birthdate"
                                 name="birthDate"
                                 placeholder="Enter birhtdate" 
                                 onChange={handleChange}
-                                value={user.birthDate || ''}
+                                value={user.birthDate || date}
                                />
                         </Form.Group>
 
@@ -99,13 +97,13 @@ const UserForm = props => {
                                 label="Female"
                                 name="gender" 
                                 value="female"
-                                defaultChecked={user.gender === "female"}/>
+                                defaultChecked={user.gender === "female"} required/>
                             <Form.Check
                                 type="radio"
                                 label="Male" 
                                 name="gender" 
                                 value="male"
-                                defaultChecked={user.gender === "male"}/>
+                                defaultChecked={user.gender === "male"} required/>
                         </Form.Group> 
                         
                         <Button variant="primary" type="submit">

@@ -12,7 +12,7 @@ const UserList = () => {
 
     useEffect(() => {
         dispatch(fetchUsers());
-    }, [dispatch, users])
+    }, [dispatch]);
 
     return (
         <ListGroup>
@@ -26,8 +26,8 @@ const UserList = () => {
                     </Row>
                 </ListGroup.Item>
                 {users.map(user => {
-                        return <UserItem key={user._id}
-                                            id={user._id}
+                        return <UserItem key={user.id}
+                                            id={user.id}
                                             fullName={user.fullName}
                                             birthDate={user.birthDate}
                                             gender={user.gender}

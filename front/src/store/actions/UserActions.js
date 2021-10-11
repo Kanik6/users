@@ -5,8 +5,12 @@ export const fetchUsersSuccess = payload => ({type: FETCH_USERS_REQUEST, payload
 export const fetchUsers = () => {
     return async dispatch => {
         try {
-            const usersResponse = await axios.get('https://crudcrud.com/api/c86d79e6e06b44949e8687409ece88d7/users');
-            const usersArr = usersResponse.data;
+            const usersResponse = await axios.get('https://testtt-6ac00-default-rtdb.firebaseio.com/users.json');
+           
+            const usersArr = Object.keys(usersResponse.data).map(user => (
+                {...usersResponse.data[user], id: user}
+            ));
+            
             dispatch(fetchUsersSuccess(usersArr));
         } catch (e) {
 
@@ -19,7 +23,7 @@ export const fetchSingleUserSuccess = payload => ({type:FETCH_SINGLE_USER_REQUES
 export const fetchSingleUser = (id) => {
     return async dispatch => {
         try {
-            const singleUserResponse = await axios.get(`https://crudcrud.com/api/c86d79e6e06b44949e8687409ece88d7/users/${id}`);
+            const singleUserResponse = await axios.get(`https://testtt-6ac00-default-rtdb.firebaseio.com/users/${id}.json`);
             dispatch(fetchSingleUserSuccess(singleUserResponse.data));
         } catch (e) {
 
@@ -30,8 +34,8 @@ export const fetchSingleUser = (id) => {
 export const updateUser = (id, user, history) => {
     return async dispatch => {
         try {
-            await axios.put(`https://crudcrud.com/api/c86d79e6e06b44949e8687409ece88d7/users/${id}`, user);
-            history.push('/');
+            await axios.put(`https://testtt-6ac00-default-rtdb.firebaseio.com/users/${id}.json`, user);
+            history.push("/");
         } catch (e) {
 
         }
@@ -46,8 +50,8 @@ export const deleteUserSuccess = payload => ({type: DELETE_USER_REQUEST, payload
 export const deleteUser = (id, history) => {
     return async (dispatch) => {
         try {
-            await axios.delete(`https://crudcrud.com/api/c86d79e6e06b44949e8687409ece88d7/users/${id}`);
-            // dispatch(deleteUserSuccess(id));
+            await axios.delete(`https://testtt-6ac00-default-rtdb.firebaseio.com/users/${id}.json`);
+            dispatch(deleteUserSuccess(id));
         } catch (e) {
 
         }
@@ -57,7 +61,8 @@ export const deleteUser = (id, history) => {
 export const createUser = (user, history) => {
     return async dispatch => {
         try {
-            axios.post('https://crudcrud.com/api/c86d79e6e06b44949e8687409ece88d7/users', user);
+            await axios.post('https://testtt-6ac00-default-rtdb.firebaseio.com/users.json', user);
+            history.push("/");
         } catch (e) {
 
         }

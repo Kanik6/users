@@ -16,13 +16,13 @@ const userReducer = (state = initialState, action) => {
             return {...state, users: action.payload}
         case FETCH_SINGLE_USER_REQUEST:
             return {...state, userToUpdate: action.payload}
-        // case DELETE_USER_REQUEST:
-        //     const usersCopy = [...state.users];
-        //     const removeIndex = usersCopy.map(user => {
-        //         return user.id;
-        //     }).indexOf(action.payload);
-        //     usersCopy.splice(removeIndex, 1)
-        //     return {...state, users: usersCopy}
+        case DELETE_USER_REQUEST:
+            const usersCopy = [...state.users];
+            const removeIndex = usersCopy.map(user => {
+                return user.id;
+            }).indexOf(action.payload);
+            usersCopy.splice(removeIndex, 1)
+            return {...state, users: usersCopy}
         case RESET_USER_TO_UPDATE:
             return {...state, userToUpdate: null}
         default:
